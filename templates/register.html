@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {% for field in reg_form %}
+            {% if not field.is_hidden %}
+                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% endif %}
+            {{ field }}
+            <p class="text-danger">{{ field.errors.as_text }}</p>
+        {% endfor %}
+        <input type="submit" value="注册" class="btn btn-primary pull-right">
+    </form>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>UPLOAD</title>
+        <link rel="stylesheet" href="{% static 'index.css' %}">
+
+    </head>
+<body>
+    <div class="div1">
+        <img src="/static/images/logo.png">
+    </div>
+        <div class="title">
+            <p class="titleText">大宝贝助手</p>
+        </div>
+        <div class="tip">
+            <p class="tipText" id="tipText">选择要上传的文件</p>
+        </div>
+        <div class="div4">
+
+                <form action="{% url 'upload_files' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="chooseFile">
+                <input type="file" name="file" required id="id_file" />
+
+            <span class="pull-left text-danger">{{ form.non_field_errors }}</span>
+            </div>
+            <div class="chooseButton">
+                <input type="button" id="btn" value="选择文件" class="btn1">
+            </div>
+            <div class="submit">
+                <input type="submit" value="上传文件" class="btn2">
+            </div>
+        </form>
+        </div>
+        <br>
+        <div class="div3">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'login' %}?from={{ request.get_full_path }}">登录</a>
+                <a href="{% url 'register' %}?from={{ request.get_full_path }}">注册</a>
+            {% else %}
+                <p>Hello! {{ user.username }}</p>
+                <a href="{% url 'home' %}">个人主页</a>
+                <a href="{% url 'logout' %}">注销</a>
+            {% endif %}
+        </div>
+    <script>
+            function notice(){
+                var filename = document.getElementById("id_file").files[0].name;
+                document.getElementById("tipText").innerHTML=filename;
+            }
+            let f = document.getElementById("id_file")
+            f.addEventListener('change', notice)
+
+        </script>
+    </body>
+
+
+</html>
